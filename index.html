@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaw5046 - Personal Blog</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --bg-color: #0f0f23;
+            --surface-color: #1a1a2e;
+            --text-color: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --border-color: #27272a;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Main content area */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* About Me section */
+        .about {
+            padding: 100px 0;
+            background: var(--surface-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Adjust if you prefer image on one side */
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Projects section (formerly Blog) */
+        .blog { /* Keeping class name for simplicity if JS targets it, but semantically it's "Projects" */
+            padding: 100px 0;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .blog-card {
+            background: var(--surface-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .blog-image { /* This is an icon placeholder, consider using actual images for projects */
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .blog-content {
+            padding: 2rem;
+        }
+
+        .blog-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .blog-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+            text-decoration: underline;
+        }
+
+        /* Contact section */
+        .contact {
+            padding: 100px 0;
+            background: var(--surface-color);
+            text-align: center;
+        }
+
+        .contact p {
+             margin-bottom: 3rem;
+             font-size: 1.1rem;
+             color: var(--text-secondary);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            /* margin-top: 3rem; // Adjusted by p margin */
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-color); /* Ensure footer matches body bg */
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Consider implementing a mobile menu (hamburger icon) */
+            }
+
+            .hero h1 {
+                font-size: 2.8rem; /* Adjusted for smaller screens */
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+                justify-content: center; /* Center text in button */
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr; /* Stack cards on smaller screens */
+                gap: 1.5rem;
+            }
+            
+            .blog-content {
+                padding: 1.5rem;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+
+            .social-link {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Shaw5046</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#blog">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Shaw5046</h1>
+            <p>Full-Stack Developer | Java Backend & React Frontend Expert. Focused on building high-quality web applications, from social media backends to interactive frontend interfaces, creating value with code.</p>
+            <div class="hero-buttons">
+                <a href="#blog" class="btn btn-primary">
+                    <i class="fas fa-project-diagram"></i> View Projects
+                </a>
+                <a href="https://github.com/Shaw5046" class="btn btn-outline" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title fade-in">About Me</h2>
+            <div class="about-content fade-in">
+                <div class="about-text">
+                    <p>Hello! I'm Shaw5046, a software engineer specializing in full-stack development. I am passionate about building high-quality web applications using modern technology stacks.</p>
+                    <p>My tech stack primarily covers Java backend development and React frontend development. From practicing data structures and algorithms to social media backend systems, from accounting applications to real-time chat applications, I enjoy tackling various technical challenges and continuously improving my programming skills.</p>
+                    <p>Currently, I am diving deep into microservices architecture, cloud-native technologies, and modern frontend frameworks, hoping to build more elegant and efficient solutions.</p>
+                    <div class="skills">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">RESTful API</span>
+                        <span class="skill-tag">Data Structures</span>
+                        <span class="skill-tag">Algorithms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog" class="blog"> <div class="container">
+            <h2 class="section-title fade-in">Featured Projects</h2>
+            <div class="blog-grid">
+                <article class="blog-card fade-in">
+                    <div class="blog-image">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">Java · Spring Boot</div>
+                        <h3 class="blog-title">Social Media Backend System</h3>
+                        <p class="blog-excerpt">A practice project for a social media backend built with Java, implementing core modules such as user management, content publishing, and interactive features, designed with RESTful APIs...</p>
+                        <a href="https://github.com/Shaw5046/SocialMediaBackendPractice" class="read-more" target="_blank">
+                            View Code <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card fade-in">
+                    <div class="blog-image">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">React · JavaScript</div>
+                        <h3 class="blog-title">React Accounting App</h3>
+                        <p class="blog-excerpt">A personal accounting management application developed with React, featuring income/expense tracking, category management, data visualization, etc., using modern React Hooks patterns...</p>
+                        <a href="https://github.com/Shaw5046/react-practice-BookKeeping" class="read-more" target="_blank">
+                            View Code <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card fade-in">
+                    <div class="blog-image">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">React · WebSocket</div>
+                        <h3 class="blog-title">React Chat App</h3>
+                        <p class="blog-excerpt">A real-time chat application practice project, using React to build the user interface, supporting features like real-time messaging and user online status display...</p>
+                        <a href="https://github.com/Shaw5046/react-practice-chatapp" class="read-more" target="_blank">
+                            View Code <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card fade-in">
+                    <div class="blog-image">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">Java · Algorithms</div>
+                        <h3 class="blog-title">Data Structures Experiment Code</h3>
+                        <p class="blog-excerpt">A collection of experimental code for data structures and algorithms, including Java implementations of various classic algorithms, covering core concepts like sorting, searching, and graph theory...</p>
+                        <a href="https://github.com/Shaw5046/DS-A4-ExperimentCode" class="read-more" target="_blank">
+                            View Code <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title fade-in">Contact Me</h2>
+            <p class="fade-in">Feel free to contact me to discuss technical topics, project collaborations, or share learning experiences.</p>
+            <div class="social-links fade-in">
+                <a href="https://github.com/Shaw5046" class="social-link" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="mailto:your.email@example.com" class="social-link" title="Email"> <i class="fas fa-envelope"></i>
+                </a>
+                <a href="#" class="social-link" title="LinkedIn"> <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="social-link" title="WeChat"> <i class="fab fa-weixin"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Shaw5046. Made with ❤️ and GitHub Pages.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Adjust for fixed navbar height if necessary
+                    // const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    // const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    // const offsetPosition = elementPosition - navbarHeight;
+
+                    // window.scrollTo({
+                    //     top: offsetPosition,
+                    //     behavior: 'smooth'
+                    // });
+                    // Simpler scroll into view:
+                     targetElement.scrollIntoView({
+                         behavior: 'smooth',
+                         block: 'start' // 'center' or 'end' might also be preferable
+                     });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(26, 26, 46, 0.98)'; // More opaque on scroll
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.background = 'rgba(26, 26, 46, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+            // Optional: Hide navbar on scroll down, show on scroll up
+            // if (lastScrollY < window.scrollY && window.scrollY > 100) {
+            //     navbar.style.top = '-80px'; // Assuming navbar height is around 80px
+            // } else {
+            //     navbar.style.top = '0';
+            // }
+            // lastScrollY = window.scrollY;
+        });
+
+        // Animation observer for fade-in elements
+        const observerOptions = {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+            rootMargin: '0px 0px -50px 0px' // Start loading a bit before it's fully in view
+        };
+
+        const observer = new IntersectionObserver((entries, observerInstance) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observerInstance.unobserve(entry.target); // Optional: Unobserve after animation
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Interactive effects for blog cards
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = 'var(--primary-color)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = 'var(--border-color)';
+            });
+        });
+
+        // Skill tag animation (staggered)
+        document.querySelectorAll('.skills .skill-tag').forEach((tag, index) => {
+            // Ensure the parent .skills container is observed for fade-in first
+            // This animation can be part of the .fade-in.visible state or a separate one
+            // For simplicity, if .skills itself is .fade-in, this will trigger after it becomes visible.
+            tag.style.transitionDelay = `${index * 0.05}s`; // Stagger animation
+            // The actual animation to fade them in needs to be defined in CSS, 
+            // or rely on the parent '.fade-in' being applied to each tag individually.
+            // If skill tags are not individually `.fade-in`, add this:
+            // tag.classList.add('fade-in'); // if they should fade independently
+            // observer.observe(tag); // if they should fade independently and are not children of an observed .fade-in
+        });
+        // If '.skills' div has 'fade-in', and you want tags to animate after parent is visible:
+        // You might need to adjust the CSS or JS logic for staggered animation of children
+        // A simple way is to add 'fade-in' to each skill-tag and let the observer handle them.
+        // The current JS `tag.classList.add('fade-in');` from the original file was removed,
+        // assuming that '.skills' has '.fade-in' and this class applies to children or 
+        // you'd add '.fade-in' to each skill-tag in HTML.
+        // For this version, I'll assume the parent `.about-content` or `.skills` div has `fade-in`.
+        // The `animation-delay` for skill-tags is better handled via CSS if they are part of a parent animation.
+        // Let's re-add a simple version for skill tags similar to original:
+        const skillTagsContainer = document.querySelector('.skills');
+        if (skillTagsContainer) {
+            const skillTagsObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelectorAll('.skill-tag').forEach((tag, index) => {
+                            tag.style.opacity = '0'; // Initial state for JS animation
+                            tag.style.transform = 'translateY(20px)'; // Initial state
+                            tag.style.transition = `opacity 0.5s ease-out ${index * 0.1}s, transform 0.5s ease-out ${index * 0.1}s`;
+                            requestAnimationFrame(() => { // Ensure styles are applied before transition
+                                tag.style.opacity = '1';
+                                tag.style.transform = 'translateY(0)';
+                            });
+                        });
+                        skillTagsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            skillTagsObserver.observe(skillTagsContainer);
+        }
+
+    </script>
+</body>
+</html>
